@@ -1,0 +1,39 @@
+{
+    "name": "californiamountainsnake/simple-laravel-auth-system",
+    "type": "library",
+    "description": "A simple realisation of authentication and authorization for Laravel",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "CaliforniaMountainSnake",
+            "email": "CaliforniaMountainSnake1@yandex.ru"
+        }
+    ],
+    "require": {
+        "php": "^7.3.1",
+        "ext-json": "*",
+        "myclabs/php-enum": "~1.5",
+        "laravel/framework": "5.7.*",
+        "californiamountainsnake/php-database-entities": "~1.0.0",
+        "californiamountainsnake/json-response": "~1.0.0"
+    },
+    "require-dev": {
+        "ext-dom": "*",
+        "phpunit/phpunit": "^7.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "CaliforniaMountainSnake\\SimpleLaravelAuthSystem\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": [
+            "\"vendor/bin/phpunit\""
+        ]
+    }
+}
