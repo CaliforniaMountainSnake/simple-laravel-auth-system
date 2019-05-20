@@ -8,7 +8,7 @@ use MyCLabs\Enum\Enum;
  * Тип аккаунта - платный, бесплатный.
  * Или же по тарифам - тариф1, тариф2, и т.п.
  */
-abstract class AuthUserAccountTypeEnum extends Enum
+class AuthUserAccountTypeEnum extends Enum
 {
     /**
      * Бесплатный аккаунт.

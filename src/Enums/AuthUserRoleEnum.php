@@ -7,7 +7,7 @@ use MyCLabs\Enum\Enum;
 /**
  * Роль юзера - неавторизованный, пользователь, админ и т.п.
  */
-abstract class AuthUserRoleEnum extends Enum
+class AuthUserRoleEnum extends Enum
 {
     public const NOT_AUTH = 'not_auth';
 

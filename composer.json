@@ -12,10 +12,10 @@
     "require": {
         "php": "^7.3.1",
         "ext-json": "*",
-        "myclabs/php-enum": "~1.5",
-        "laravel/framework": "5.7.*",
-        "californiamountainsnake/php-database-entities": "~1.0.0",
-        "californiamountainsnake/json-response": "~1.0.0"
+        "myclabs/php-enum": "^1.5",
+        "laravel/framework": "^5.7",
+        "californiamountainsnake/php-database-entities": "^1.0.0",
+        "californiamountainsnake/json-response": "^1.0.0"
     },
     "require-dev": {
         "ext-dom": "*",
