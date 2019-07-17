@@ -3,8 +3,11 @@
 namespace CaliforniaMountainSnake\SimpleLaravelAuthSystem;
 
 use CaliforniaMountainSnake\JsonResponse\JsonResponse;
-use CaliforniaMountainSnake\SimpleLaravelAuthSystem\AccountTypeUtils\AuthUserAccountTypesUtils;
+use CaliforniaMountainSnake\SimpleLaravelAuthSystem\AccessUtils\AuthUserAccountTypeAccessUtils;
+use CaliforniaMountainSnake\SimpleLaravelAuthSystem\AccessUtils\AuthUserRoleAccessUtils;
 use CaliforniaMountainSnake\SimpleLaravelAuthSystem\Enums\AuthUserRoleEnum;
+use Illuminate\Contracts\Container\BindingResolutionException;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -13,9 +16,10 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class AuthMiddleware
 {
-    public const API_TOKEN_REQUEST_PARAM = 'api_token';
+    use AuthUserRoleAccessUtils;
+    use AuthUserAccountTypeAccessUtils;
 
-    use AuthUserAccountTypesUtils;
+    public const API_TOKEN_REQUEST_PARAM = 'api_token';
 
     /**
      * @var AuthUserRepository
@@ -36,10 +40,13 @@ class AuthMiddleware
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request $_request
+     * @param  Request $_request
      * @param  \Closure $_next
      * @param string[] $_config
+     *
      * @return mixed
+     *
+     * @throws BindingResolutionException
      */
     public function handle($_request, \Closure $_next, string ...$_config)
     {
@@ -52,6 +59,7 @@ class AuthMiddleware
             return JsonResponse::error($validator->errors()->toArray(), Response::HTTP_BAD_REQUEST)->make();
         }
 
+        // Если токен не найден в запросе.
         if ($token === null) {
             if ($isNotAuthAllowed) {
                 return $_next($_request);
@@ -62,18 +70,21 @@ class AuthMiddleware
             ], Response::HTTP_BAD_REQUEST)->make();
         }
 
+        // Если токен не найден в БД.
         $userEntity = $this->userRepository->getByApiToken($token);
         if ($userEntity === null) {
             return JsonResponse::error([__('auth_middleware.bad_token_error')],
                 Response::HTTP_UNAUTHORIZED)->make();
         }
 
-        if (!\in_array((string)$userEntity->getRole(), $roles, true)) {
+        // Если роль юзера не содержится в разрешенных.
+        if (!$this->isUserRoleEquals($userEntity, $roles)) {
             return JsonResponse::error([__('auth_middleware.wrong_role_error')],
                 Response::HTTP_FORBIDDEN)->make();
         }
 
-        if (!\in_array((string)$userEntity->getAccountType(), $accountTypes, true)) {
+        // Если тип аккаунта юзера не содержится в разрешенных.
+        if (!$this->isUserAccountTypeEquals($userEntity, $accountTypes)) {
             return JsonResponse::error([__('auth_middleware.wrong_account_type_error')],
                 Response::HTTP_PAYMENT_REQUIRED)->make();
         }
