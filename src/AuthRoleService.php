@@ -15,7 +15,7 @@ class AuthRoleService
     public const ACCOUNT_TYPES                     = 'account_types';
 
     /**
-     * @var array
+     * @var array[]
      */
     protected $routes = [];
 
@@ -28,7 +28,7 @@ class AuthRoleService
     {
         $_route->middleware($this->rolesMiddleware($_roles, $_account_types));
 
-        $this->routes[] = [
+        $this->routes[$_route->uri()] = [
             self::METHODS => $_route->methods(),
             self::ROUTE => $_route->uri(),
             self::ROLES => $_roles,
@@ -42,6 +42,15 @@ class AuthRoleService
     public function getRotes(): array
     {
         return $this->routes;
+    }
+
+    /**
+     * @param string $_route
+     * @return array|null
+     */
+    public function getRouteInfo(string $_route): ?array
+    {
+        return $this->routes[$_route] ?? null;
     }
 
     /**
@@ -76,6 +85,34 @@ class AuthRoleService
         }
 
         return $result;
+    }
+
+    /**
+     * @param string $_route
+     * @return AuthUserRoleEnum[]
+     */
+    public function getRolesByRoute(string $_route): array
+    {
+        $routeInfo = $this->getRouteInfo($_route);
+        if ($routeInfo === null) {
+            return [];
+        }
+
+        return $routeInfo[self::ROLES];
+    }
+
+    /**
+     * @param string $_route
+     * @return AuthUserRoleEnum[]
+     */
+    public function getAccountTypesByRoute(string $_route): array
+    {
+        $routeInfo = $this->getRouteInfo($_route);
+        if ($routeInfo === null) {
+            return [];
+        }
+
+        return $routeInfo[self::ACCOUNT_TYPES];
     }
 
     /**
