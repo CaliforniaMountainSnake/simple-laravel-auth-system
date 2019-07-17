@@ -28,12 +28,10 @@ class AuthRoleService
     {
         $_route->middleware($this->rolesMiddleware($_roles, $_account_types));
 
-        $this->routes[$_route->uri()] = [
-            self::METHODS => $_route->methods(),
-            self::ROUTE => $_route->uri(),
-            self::ROLES => $_roles,
-            self::ACCOUNT_TYPES => $_account_types,
-        ];
+        $this->routes[$_route->uri()][self::METHODS]       = $_route->methods();
+        $this->routes[$_route->uri()][self::ROUTE]         = $_route->uri();
+        $this->routes[$_route->uri()][self::ROLES]         = $_roles;
+        $this->routes[$_route->uri()][self::ACCOUNT_TYPES] = $_account_types;
     }
 
     /**
