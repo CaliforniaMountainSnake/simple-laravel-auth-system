@@ -11,7 +11,7 @@ use CaliforniaMountainSnake\SimpleLaravelAuthSystem\Enums\AuthUserAccountTypeEnu
  */
 trait AuthUserAccountTypeAccessUtils
 {
-    use StringifyUtils;
+    use ArrayUtils;
 
     /**
      * Соответствует ли тип аккаунта юзера одному из заданных?
@@ -20,13 +20,15 @@ trait AuthUserAccountTypeAccessUtils
      * @param AuthUserAccountTypeEnum[]|string[] $_account_types
      *
      * @return bool
+     *
+     * @throws \LogicException
      */
     public function isUserAccountTypeEquals(?AuthUserEntity $_user_entity, ...$_account_types): bool
     {
         if ($_user_entity === null) {
             return false;
         }
-
+        
         return \in_array((string)$_user_entity->getAccountType(), $this->stringifyArray($_account_types), true);
     }
 
@@ -37,10 +39,11 @@ trait AuthUserAccountTypeAccessUtils
      * @param AuthUserAccountTypeEnum[]|string[] $_account_types
      *
      * @throws UserAccountTypeNotEqualsException
+     * @throws \LogicException
      */
     public function assertUserAccountTypeEquals(?AuthUserEntity $_user_entity, ...$_account_types): void
     {
-        if (!$this->isUserAccountTypeEquals($_user_entity, $_account_types)) {
+        if (!$this->isUserAccountTypeEquals($_user_entity, ...$_account_types)) {
             throw new UserAccountTypeNotEqualsException('Your account type does not equal to one of ['
                 . \implode(', ', $_account_types) . ']!');
         }

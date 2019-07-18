@@ -11,7 +11,7 @@ use CaliforniaMountainSnake\SimpleLaravelAuthSystem\Enums\AuthUserRoleEnum;
  */
 trait AuthUserRoleAccessUtils
 {
-    use StringifyUtils;
+    use ArrayUtils;
 
     /**
      * Соответствует ли роль юзера одной из заданных?
@@ -20,13 +20,15 @@ trait AuthUserRoleAccessUtils
      * @param AuthUserRoleEnum[]|string[] $_roles
      *
      * @return bool
+     *
+     * @throws \LogicException
      */
     public function isUserRoleEquals(?AuthUserEntity $_user_entity, ...$_roles): bool
     {
         if ($_user_entity === null) {
             return false;
         }
-
+        
         return \in_array((string)$_user_entity->getRole(), $this->stringifyArray($_roles), true);
     }
 
@@ -37,10 +39,11 @@ trait AuthUserRoleAccessUtils
      * @param AuthUserRoleEnum[]|string[] $_roles
      *
      * @throws UserRoleNotEqualsException
+     * @throws \LogicException
      */
     public function assertUserRoleEquals(?AuthUserEntity $_user_entity, ...$_roles): void
     {
-        if (!$this->isUserRoleEquals($_user_entity, $_roles)) {
+        if (!$this->isUserRoleEquals($_user_entity, ...$_roles)) {
             throw new UserRoleNotEqualsException('Your role does not equal to one of [' . \implode(', ',
                     $_roles) . ']!');
         }

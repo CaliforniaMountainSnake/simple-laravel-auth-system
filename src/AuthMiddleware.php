@@ -47,6 +47,7 @@ class AuthMiddleware
      * @return mixed
      *
      * @throws BindingResolutionException
+     * @throws \LogicException
      */
     public function handle($_request, \Closure $_next, string ...$_config)
     {
@@ -78,13 +79,13 @@ class AuthMiddleware
         }
 
         // Если роль юзера не содержится в разрешенных.
-        if (!$this->isUserRoleEquals($userEntity, $roles)) {
+        if (!$this->isUserRoleEquals($userEntity, ...$roles)) {
             return JsonResponse::error([__('auth_middleware.wrong_role_error')],
                 Response::HTTP_FORBIDDEN)->make();
         }
 
         // Если тип аккаунта юзера не содержится в разрешенных.
-        if (!$this->isUserAccountTypeEquals($userEntity, $accountTypes)) {
+        if (!$this->isUserAccountTypeEquals($userEntity, ...$accountTypes)) {
             return JsonResponse::error([__('auth_middleware.wrong_account_type_error')],
                 Response::HTTP_PAYMENT_REQUIRED)->make();
         }
