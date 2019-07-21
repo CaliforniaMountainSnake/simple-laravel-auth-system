@@ -28,7 +28,7 @@ class AuthRoleService
     {
         $_route->middleware($this->rolesMiddleware($_roles, $_account_types));
 
-        $this->routes[$_route->uri()] = [
+        $this->routes[] = [
             self::METHODS => $_route->methods(),
             self::ROUTE => $_route->uri(),
             self::ROLES => $_roles,
@@ -50,7 +50,13 @@ class AuthRoleService
      */
     public function getRouteInfo(string $_route): ?array
     {
-        return $this->routes[$_route] ?? null;
+        foreach ($this->routes as $currentRoute) {
+            if ($currentRoute[self::ROUTE] === $_route) {
+                return $currentRoute;
+            }
+        }
+
+        return null;
     }
 
     /**
