@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Security
 
 
+## [2.0.4] - 2019-07-21
+### Added
+- Added methods AuthUserRoleAccessUtils::getRoleOfUserString and AuthUserAccountTypeAccessUtils::getAccountTypeOfUserString.
+
 ## [2.0.3] - 2019-07-18
 ### Fixed
 - Fix some other bugs.

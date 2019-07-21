@@ -25,11 +25,7 @@ trait AuthUserRoleAccessUtils
      */
     public function isUserRoleEquals(?AuthUserEntity $_user_entity, ...$_roles): bool
     {
-        if ($_user_entity === null) {
-            return false;
-        }
-        
-        return \in_array((string)$_user_entity->getRole(), $this->stringifyArray($_roles), true);
+        return \in_array($this->getRoleOfUserString($_user_entity), $this->stringifyArray($_roles), true);
     }
 
     /**
@@ -47,5 +43,16 @@ trait AuthUserRoleAccessUtils
             throw new UserRoleNotEqualsException('Your role does not equal to one of [' . \implode(', ',
                     $_roles) . ']!');
         }
+    }
+
+    /**
+     * Получить роль юзера В СТРОКОВОМ ВИДЕ.
+     *
+     * @param AuthUserEntity|null $_user
+     * @return string
+     */
+    public function getRoleOfUserString(?AuthUserEntity $_user): string
+    {
+        return ($_user === null) ? AuthUserRoleEnum::NOT_AUTH : (string)$_user->getRole();
     }
 }

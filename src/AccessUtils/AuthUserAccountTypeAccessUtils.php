@@ -25,11 +25,8 @@ trait AuthUserAccountTypeAccessUtils
      */
     public function isUserAccountTypeEquals(?AuthUserEntity $_user_entity, ...$_account_types): bool
     {
-        if ($_user_entity === null) {
-            return false;
-        }
-        
-        return \in_array((string)$_user_entity->getAccountType(), $this->stringifyArray($_account_types), true);
+        return \in_array($this->getAccountTypeOfUserString($_user_entity), $this->stringifyArray($_account_types),
+            true);
     }
 
     /**
@@ -47,5 +44,16 @@ trait AuthUserAccountTypeAccessUtils
             throw new UserAccountTypeNotEqualsException('Your account type does not equal to one of ['
                 . \implode(', ', $_account_types) . ']!');
         }
+    }
+
+    /**
+     * Получить тип аккаунта юзера В СТРОКОВОМ ВИДЕ.
+     *
+     * @param AuthUserEntity|null $_user
+     * @return string
+     */
+    public function getAccountTypeOfUserString(?AuthUserEntity $_user): string
+    {
+        return ($_user === null) ? AuthUserAccountTypeEnum::FREE : (string)$_user->getAccountType();
     }
 }
