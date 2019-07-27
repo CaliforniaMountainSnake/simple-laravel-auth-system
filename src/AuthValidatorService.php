@@ -4,14 +4,8 @@ namespace CaliforniaMountainSnake\SimpleLaravelAuthSystem;
 
 use Illuminate\Contracts\Validation\Validator;
 
-interface AuthValidatorServiceInterface
+abstract class AuthValidatorService implements AuthValidatorServiceInterface
 {
-    /**
-     * Массив валидации Laravel для параметра "api_token".
-     * @return array
-     */
-    public function api_token(): array;
-
     /**
      * Создать валидатор.
      *
@@ -26,5 +20,7 @@ interface AuthValidatorServiceInterface
         array $_rules,
         array $_messages = [],
         array $_custom_attributes = []
-    ): Validator;
+    ): Validator {
+        return \Illuminate\Support\Facades\Validator::make($_data, $_rules, $_messages, $_custom_attributes);
+    }
 }

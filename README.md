@@ -28,10 +28,10 @@ composer require californiamountainsnake/simple-laravel-auth-system
 2. Extend the AuthUserAvailableActions class. You can add there any checks based on some user, like `(new UserAvailableActions($user))->isSomeActionAvailableForThisUser()`.  
 3. Extend the AuthUserEntity class. This your main user class. See https://github.com/CaliforniaMountainSnake/php-database-entities.
 4. Extend the AuthUserRepository class. This is the repository contains all user database queries in any from. See https://github.com/CaliforniaMountainSnake/php-database-entities.
-5. Implement the AuthValidatorServiceInterface contains the Laravel validation array for "api_token" request param. Like:
+5. Extend the AuthValidatorService class contains the Laravel validation array for "api_token" request param. Like:
 ```php
 <?php
-class MyValidatorService implements AuthValidatorServiceInterface
+class MyValidatorService extends AuthValidatorService
 {
     public function api_token(): array
         {
