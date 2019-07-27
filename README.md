@@ -31,9 +31,6 @@ composer require californiamountainsnake/simple-laravel-auth-system
 5. Implement the AuthValidatorServiceInterface contains the Laravel validation array for "api_token" request param. Like:
 ```php
 <?php
-use CaliforniaMountainSnake\SimpleLaravelAuthSystem\AuthValidatorServiceInterface;
-use CaliforniaMountainSnake\SimpleLaravelAuthSystem\AuthMiddleware;
-
 class MyValidatorService implements AuthValidatorServiceInterface
 {
     public function api_token(): array
@@ -50,8 +47,8 @@ class MyValidatorService implements AuthValidatorServiceInterface
 6. Add some binding in Laravel AppServiceProvider: 
 ```php
 <?php
-class AppServiceProvider extends ServiceProvider{
-    
+class AppServiceProvider extends ServiceProvider
+{    
     public function register(): void {
         // Binding Interfaces To Implementations.
         $this->app->bind(AuthValidatorServiceInterface::class, YourValidatorService::class);
@@ -59,18 +56,13 @@ class AppServiceProvider extends ServiceProvider{
     }
 }
 ```
-7. Now you can use AuthMiddleware in your controllers:
+7. Extend the AuthApiUserController class and create your own base api controller. Realise the abstract methods.
+All actions of this controller (and it's children) will be automatic handled by the auth system.
 ```php
 <?php
-class ApiController extends Controller
+class ApiUserController extends AuthApiUserController
 {
-    public function __construct()
-    {
-        parent::__construct();
-
-        // Set role and account type authentication
-        $this->middleware(AuthMiddleware::class);
-    }
+    // Realise the abstract methods.
 }
 ```
 

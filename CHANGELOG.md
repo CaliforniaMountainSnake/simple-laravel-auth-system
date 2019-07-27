@@ -11,6 +11,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Security
 
 
+## [2.1.0] - 2019-07-27
+### Added
+- Added classes intended to work with laravel controllers.
+- Added CorsMiddleware.
+### Changed
+- Changed the namespace of the AuthMiddleware class.
+- README.md was modified to be compatible with new changes.
+
 ## [2.0.5] - 2019-07-21
 ### Fixed
 - Fixed the bug.

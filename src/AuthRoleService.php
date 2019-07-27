@@ -4,6 +4,7 @@ namespace CaliforniaMountainSnake\SimpleLaravelAuthSystem;
 
 use CaliforniaMountainSnake\SimpleLaravelAuthSystem\Enums\AuthUserAccountTypeEnum;
 use CaliforniaMountainSnake\SimpleLaravelAuthSystem\Enums\AuthUserRoleEnum;
+use CaliforniaMountainSnake\SimpleLaravelAuthSystem\Middleware\AuthMiddleware;
 use Illuminate\Routing\Route;
 
 class AuthRoleService
@@ -26,7 +27,7 @@ class AuthRoleService
      */
     public function setRote(Route $_route, array $_roles, array $_account_types): void
     {
-        $_route->middleware($this->rolesMiddleware($_roles, $_account_types));
+        $_route->middleware($this->authMiddleware($_roles, $_account_types));
 
         $this->routes[] = [
             self::METHODS => $_route->methods(),
@@ -126,7 +127,7 @@ class AuthRoleService
      * @param AuthUserAccountTypeEnum[] $_account_types
      * @return string
      */
-    protected function rolesMiddleware(array $_roles, array $_account_types): string
+    protected function authMiddleware(array $_roles, array $_account_types): string
     {
         $rolesStr        = \implode(',', $_roles);
         $accountTypesStr = \implode(',', $_account_types);

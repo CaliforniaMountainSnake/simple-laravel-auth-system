@@ -1,10 +1,13 @@
 <?php
 
-namespace CaliforniaMountainSnake\SimpleLaravelAuthSystem;
+namespace CaliforniaMountainSnake\SimpleLaravelAuthSystem\Middleware;
 
 use CaliforniaMountainSnake\JsonResponse\JsonResponse;
 use CaliforniaMountainSnake\SimpleLaravelAuthSystem\AccessUtils\AuthUserAccountTypeAccessUtils;
 use CaliforniaMountainSnake\SimpleLaravelAuthSystem\AccessUtils\AuthUserRoleAccessUtils;
+use CaliforniaMountainSnake\SimpleLaravelAuthSystem\AuthRoleService;
+use CaliforniaMountainSnake\SimpleLaravelAuthSystem\AuthUserRepository;
+use CaliforniaMountainSnake\SimpleLaravelAuthSystem\AuthValidatorServiceInterface;
 use CaliforniaMountainSnake\SimpleLaravelAuthSystem\Enums\AuthUserRoleEnum;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Http\Request;
