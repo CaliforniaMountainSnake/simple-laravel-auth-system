@@ -43,10 +43,10 @@ class AuthRoleService
      */
     public function setRote(Route $_route, array $_roles, array $_account_types): void
     {
-        $_route->middleware($this->authMiddleware($_roles, $_account_types));
         if ($this->isCorsEnabled()) {
             $_route->middleware(CorsMiddleware::class);
         }
+        $_route->middleware($this->authMiddleware($_roles, $_account_types));
 
         $this->routes[] = [
             self::METHODS => $_route->methods(),
