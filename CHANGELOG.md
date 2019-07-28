@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Security
 
 
+## [2.2.1] - 2019-07-27
+### Changed
+- Added the possibility to allow cross-origin requests for the each route in the AuthRoleService class.
+
 ## [2.2.0] - 2019-07-27
 ### Added
 - Added the AuthValidatorService abstract class.

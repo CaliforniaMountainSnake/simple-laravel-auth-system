@@ -5,6 +5,7 @@ namespace CaliforniaMountainSnake\SimpleLaravelAuthSystem;
 use CaliforniaMountainSnake\SimpleLaravelAuthSystem\Enums\AuthUserAccountTypeEnum;
 use CaliforniaMountainSnake\SimpleLaravelAuthSystem\Enums\AuthUserRoleEnum;
 use CaliforniaMountainSnake\SimpleLaravelAuthSystem\Middleware\AuthMiddleware;
+use CaliforniaMountainSnake\SimpleLaravelAuthSystem\Middleware\CorsMiddleware;
 use Illuminate\Routing\Route;
 
 class AuthRoleService
@@ -21,6 +22,21 @@ class AuthRoleService
     protected $routes = [];
 
     /**
+     * @var bool
+     */
+    protected $isCorsEnabled;
+
+
+    /**
+     * AuthRoleService constructor.
+     * @param bool $isCorsEnabled Should we allow Cross-Origin requests for the each route?
+     */
+    public function __construct(bool $isCorsEnabled = false)
+    {
+        $this->isCorsEnabled = $isCorsEnabled;
+    }
+
+    /**
      * @param Route $_route
      * @param AuthUserRoleEnum[] $_roles
      * @param AuthUserAccountTypeEnum[] $_account_types
@@ -28,6 +44,9 @@ class AuthRoleService
     public function setRote(Route $_route, array $_roles, array $_account_types): void
     {
         $_route->middleware($this->authMiddleware($_roles, $_account_types));
+        if ($this->isCorsEnabled()) {
+            $_route->middleware(CorsMiddleware::class);
+        }
 
         $this->routes[] = [
             self::METHODS => $_route->methods(),
@@ -120,6 +139,14 @@ class AuthRoleService
         }
 
         return $routeInfo[self::ACCOUNT_TYPES];
+    }
+
+    /**
+     * @return bool
+     */
+    public function isCorsEnabled(): bool
+    {
+        return $this->isCorsEnabled;
     }
 
     /**
