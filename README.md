@@ -49,6 +49,12 @@ class MyValidatorService extends AuthValidatorService
 <?php
 class AppServiceProvider extends ServiceProvider
 {    
+    public function boot (): void {
+        $this->app->singleton(AuthRoleService::class, static function () {
+            return new AuthRoleService(true);
+        });
+    }
+
     public function register(): void {
         // Binding Interfaces To Implementations.
         $this->app->bind(AuthValidatorServiceInterface::class, YourValidatorService::class);
@@ -71,6 +77,7 @@ class ApiUserController extends AuthApiUserController
 <?php
 use CaliforniaMountainSnake\SimpleLaravelAuthSystem\AuthRoleService;
 
+/** @var AuthRoleService $roleService */
 $roleService = app()->make(AuthRoleService::class);
 
 $roleService->setRote(
