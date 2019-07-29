@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Security
 
 
+## [2.2.4] - 2019-07-29
+### Added
+- Added AuthUserRoleAccessUtils and AuthUserAccountTypeAccessUtils traits into the AuthApiUserController.
+
 ## [2.2.3] - 2019-07-29
 ### Fixed
 - Fixed the README.md.
