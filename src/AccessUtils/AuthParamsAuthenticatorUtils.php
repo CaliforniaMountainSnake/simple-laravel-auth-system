@@ -7,7 +7,7 @@ use CaliforniaMountainSnake\SimpleLaravelAuthSystem\Middleware\AuthMiddleware;
 /**
  * This methods can be used in tests for perform requests to protected routes.
  */
-class AuthParamsAuthenticatorUtils
+trait AuthParamsAuthenticatorUtils
 {
     /**
      * Add a "api_token" parameter to the given array of request params.
