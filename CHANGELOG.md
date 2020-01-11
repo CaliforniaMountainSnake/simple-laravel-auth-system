@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Security
 
 
+## [2.2.6] - 2020-01-11
+### Added
+- Added AuthParamsAuthenticatorUtils trait that can be used in tests for authorize request params for perform requests to protected routes.
+
 ## [2.2.5] - 2020-01-11
 ### Fixed
 - Fixed security vulnerabilities founded by GitHub in dependencies.
