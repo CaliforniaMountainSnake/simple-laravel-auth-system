@@ -5,6 +5,7 @@ namespace CaliforniaMountainSnake\SimpleLaravelAuthSystem\Middleware;
 use CaliforniaMountainSnake\JsonResponse\JsonResponse;
 use CaliforniaMountainSnake\SimpleLaravelAuthSystem\Authenticator\Authenticators\BasicHttpAuthenticator;
 use CaliforniaMountainSnake\SimpleLaravelAuthSystem\Authenticator\Exceptions\AuthenticationException;
+use CaliforniaMountainSnake\SimpleLaravelAuthSystem\Authenticator\Interfaces\AuthenticatorInterface;
 use CaliforniaMountainSnake\SimpleLaravelAuthSystem\Authenticator\Utils\HasAuthenticatorTrait;
 use CaliforniaMountainSnake\SimpleLaravelAuthSystem\AuthRoleService;
 use CaliforniaMountainSnake\SimpleLaravelAuthSystem\AuthUserRepository;
@@ -71,6 +72,7 @@ class AuthMiddleware
             $accountTypes,
             self::API_TOKEN_REQUEST_PARAM
         );
+        app()->instance(AuthenticatorInterface::class, $this->authenticator);
 
         try {
             $this->authenticator->authenticateUser();
