@@ -50,8 +50,6 @@ class MyValidatorService extends AuthValidatorService
 class AppServiceProvider extends ServiceProvider
 {    
     public function boot (): void {
-        $this->app->singleton(AuthenticatorInterface::class);
-        $this->app->singleton(BasicHttpAuthenticator::class);
         $this->app->singleton(AuthRoleService::class, static function () {
             return new AuthRoleService(true);
         });
@@ -59,9 +57,9 @@ class AppServiceProvider extends ServiceProvider
 
     public function register(): void {
         // Binding Interfaces To Implementations.
-        $this->app->bind(AuthenticatorInterface::class, BasicHttpAuthenticator::class);
-        $this->app->bind(AuthValidatorServiceInterface::class, YourValidatorService::class);
-        $this->app->bind(AuthUserRepository::class, YourUserRepository::class);
+        $this->app->singleton(AuthenticatorInterface::class, BasicHttpAuthenticator::class);
+        $this->app->singleton(AuthValidatorServiceInterface::class, YourValidatorService::class);
+        $this->app->singleton(AuthUserRepository::class, YourUserRepository::class);
     }
 }
 ```
