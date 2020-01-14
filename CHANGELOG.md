@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Security
 
 
+## [3.0.1] - 2020-01-14
+### Fixed
+- In the AuthApiUserController interface resolving has been replaced into the middleware to allow AuthMiddleware do its job and create a UserEntity.
+
 ## [3.0.0] - 2020-01-13
 ### Added
 - Added the AbstractAuthSystemTest trait that can be used to test auth system on the project.
@@ -87,4 +91,5 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Big unification of some classes and methods.
 - Updated the Composer dependencies.
 
+[3.0.1]: https://github.com/CaliforniaMountainSnake/simple-laravel-auth-system/compare/3.0.0...3.0.1
 [3.0.0]: https://github.com/CaliforniaMountainSnake/simple-laravel-auth-system/compare/2.2.7...3.0.0
