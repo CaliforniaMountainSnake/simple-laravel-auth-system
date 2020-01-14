@@ -12,6 +12,7 @@ use CaliforniaMountainSnake\SimpleLaravelAuthSystem\AuthValidatorServiceInterfac
 use Closure;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Http\Request;
+use LogicException;
 
 /**
  * Простой посредник для аутентификации и авторизации клиентов.
@@ -54,6 +55,7 @@ class AuthMiddleware
      * @return mixed
      *
      * @throws BindingResolutionException
+     * @throws LogicException
      */
     public function handle($_request, Closure $_next, string ...$_config)
     {
@@ -61,14 +63,14 @@ class AuthMiddleware
         [$roles, $accountTypes] = $this->getRolesAndAccountTypes(...$_config);
 
         // Create the authenticator.
-        $this->authenticator = app()->make(BasicHttpAuthenticator::class, [
+        $this->authenticator = new BasicHttpAuthenticator(
             $_request,
             $this->userRepository,
             $this->validatorService,
             $roles,
             $accountTypes,
             self::API_TOKEN_REQUEST_PARAM
-        ]);
+        );
 
         try {
             $this->authenticator->authenticateUser();
