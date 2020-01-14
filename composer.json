@@ -19,7 +19,8 @@
     },
     "require-dev": {
         "ext-dom": "*",
-        "phpunit/phpunit": "^7.0"
+        "phpunit/phpunit": "^7.0",
+        "californiamountainsnake/laravel-database-test-case": "~0.1.0"
     },
     "autoload": {
         "psr-4": {

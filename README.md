@@ -10,7 +10,7 @@ Edit your project's `composer.json` file to require `californiamountainsnake/sim
     "name": "yourproject/yourproject",
     "type": "project",
     "require": {
-        "php": "^7.3.1",
+        "php": "^7.2",
         "californiamountainsnake/simple-laravel-auth-system": "*"
     }
 }
@@ -50,6 +50,8 @@ class MyValidatorService extends AuthValidatorService
 class AppServiceProvider extends ServiceProvider
 {    
     public function boot (): void {
+        $this->app->singleton(AuthenticatorInterface::class);
+        $this->app->singleton(BasicHttpAuthenticator::class);
         $this->app->singleton(AuthRoleService::class, static function () {
             return new AuthRoleService(true);
         });
@@ -57,6 +59,7 @@ class AppServiceProvider extends ServiceProvider
 
     public function register(): void {
         // Binding Interfaces To Implementations.
+        $this->app->bind(AuthenticatorInterface::class, BasicHttpAuthenticator::class);
         $this->app->bind(AuthValidatorServiceInterface::class, YourValidatorService::class);
         $this->app->bind(AuthUserRepository::class, YourUserRepository::class);
     }

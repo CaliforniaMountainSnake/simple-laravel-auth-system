@@ -5,13 +5,13 @@ namespace CaliforniaMountainSnake\SimpleLaravelAuthSystem\Enums;
 use MyCLabs\Enum\Enum;
 
 /**
- * Тип аккаунта - платный, бесплатный.
- * Или же по тарифам - тариф1, тариф2, и т.п.
+ * The account type - free, paid, etc.
+ * Or by tariffs - tariff_1, tariff_2, etc.
  */
 class AuthUserAccountTypeEnum extends Enum
 {
     /**
-     * Бесплатный аккаунт.
+     * Free account.
      */
     public const FREE = 'free';
 
