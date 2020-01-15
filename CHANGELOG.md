@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Security
 
 
+## [3.0.5] - 2020-01-15
+### Changed
+- The AbstractAuthSystemTest trait has been replaced into CaliforniaMountainSnake\SimpleLaravelAuthSystem\TestUtils namespace.
+
 ## [3.0.4] - 2020-01-14
 ### Fixed
 - Updated README.md.
@@ -103,6 +107,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Big unification of some classes and methods.
 - Updated the Composer dependencies.
 
+[3.0.5]: https://github.com/CaliforniaMountainSnake/simple-laravel-auth-system/compare/3.0.4...3.0.5
 [3.0.4]: https://github.com/CaliforniaMountainSnake/simple-laravel-auth-system/compare/3.0.3...3.0.4
 [3.0.3]: https://github.com/CaliforniaMountainSnake/simple-laravel-auth-system/compare/3.0.2...3.0.3
 [3.0.2]: https://github.com/CaliforniaMountainSnake/simple-laravel-auth-system/compare/3.0.1...3.0.2

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace CaliforniaMountainSnake\SimpleLaravelAuthSystem\TestUtils;
 
 use CaliforniaMountainSnake\JsonResponse\JsonResponse;
 use CaliforniaMountainSnake\SimpleLaravelAuthSystem\AccessUtils\AuthParamsAuthenticatorUtils;
@@ -8,9 +8,7 @@ use Illuminate\Foundation\Testing\Concerns\MakesHttpRequests;
 use SebastianBergmann\RecursionContext\InvalidArgumentException;
 
 /**
- * Trait AbstractAuthSystemTest
- *
- * @package Tests\Feature
+ * This trait helps to create a full test of authorization system on the project.
  */
 trait AbstractAuthSystemTest
 {
@@ -27,6 +25,8 @@ trait AbstractAuthSystemTest
 
     abstract protected function getRouteAccountTypeNotFreeGetMethod(): string;
 
+    abstract protected function getTokenMaxLength(): int;
+
     abstract protected function getTokenRoleUser(): string;
 
     abstract protected function getTokenRoleAdmin(): string;
@@ -34,14 +34,6 @@ trait AbstractAuthSystemTest
     abstract protected function getTokenAccountTypeFree(): string;
 
     abstract protected function getTokenAccountTypeNotFree(): string;
-
-    /**
-     * @return int
-     */
-    protected function getTokenMaxLength(): int
-    {
-        return 64;
-    }
 
     /**
      * @throws InvalidArgumentException
