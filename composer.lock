@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ccec40e1f1fb69a8469ec3ded715d031",
+    "content-hash": "4d41312b4177b65cea52897ff2da65b7",
     "packages": [
         {
             "name": "californiamountainsnake/json-response",
@@ -89,6 +89,51 @@
             ],
             "description": "These are php data entities and utils, intended for work with the information from database in oop-style.",
             "time": "2019-11-20T16:43:03+00:00"
+        },
+        {
+            "name": "californiamountainsnake/php-utils",
+            "version": "1.0.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/CaliforniaMountainSnake/php-utils.git",
+                "reference": "6cc8a647e99345de917b51e3074a9e95fa9d5a9f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/CaliforniaMountainSnake/php-utils/zipball/6cc8a647e99345de917b51e3074a9e95fa9d5a9f",
+                "reference": "6cc8a647e99345de917b51e3074a9e95fa9d5a9f",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "ext-mbstring": "*",
+                "myclabs/php-enum": "~1.5",
+                "php": "^7.1",
+                "symfony/process": "^4.2"
+            },
+            "require-dev": {
+                "ext-dom": "*",
+                "phpunit/phpunit": "^7.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "CaliforniaMountainSnake\\UtilTraits\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "CaliforniaMountainSnake",
+                    "email": "CaliforniaMountainSnake1@yandex.ru"
+                }
+            ],
+            "description": "The set of useful php traits",
+            "time": "2020-01-15T12:28:48+00:00"
         },
         {
             "name": "doctrine/inflector",

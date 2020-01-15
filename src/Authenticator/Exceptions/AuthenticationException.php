@@ -2,6 +2,7 @@
 
 namespace CaliforniaMountainSnake\SimpleLaravelAuthSystem\Authenticator\Exceptions;
 
+use CaliforniaMountainSnake\UtilTraits\UtilsClasses\Utils;
 use LogicException;
 use Throwable;
 
@@ -19,9 +20,12 @@ class AuthenticationException extends LogicException
      *
      * @return AuthenticationException
      */
-    public static function fromMessages($messages = [], $code = 0, Throwable $previous = null): self
+    public static function fromMessages(array $messages, int $code = 0, Throwable $previous = null): self
     {
-        $instance = new self (\implode(' ', $messages), $code, $previous);
+        $utils = new Utils();
+        $msg = \implode(' ', $utils->array_values_recursive($messages));
+
+        $instance = new self ($msg, $code, $previous);
         $instance->messages = $messages;
         return $instance;
     }
