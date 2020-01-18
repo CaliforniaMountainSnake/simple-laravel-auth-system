@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * Include this trait in some controller to have test possibilities.
  */
-trait ControllerTestActions
+trait TestControllerActions
 {
     use AuthUserAccountTypeAccessUtils;
     use AuthUserRoleAccessUtils;
