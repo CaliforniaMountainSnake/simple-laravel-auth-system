@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Security
 
 
+## [3.0.11] - 2020-01-18
+### Fixed
+- Fixed TestControllerApiEndpoints.
+
 ## [3.0.10] - 2020-01-18
 ### Fixed
 - Fixed TestControllerApiEndpoints.
@@ -129,6 +133,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Big unification of some classes and methods.
 - Updated the Composer dependencies.
 
+[3.0.11]: https://github.com/CaliforniaMountainSnake/simple-laravel-auth-system/compare/3.0.10...3.0.11
 [3.0.10]: https://github.com/CaliforniaMountainSnake/simple-laravel-auth-system/compare/3.0.9...3.0.10
 [3.0.9]: https://github.com/CaliforniaMountainSnake/simple-laravel-auth-system/compare/3.0.8...3.0.9
 [3.0.8]: https://github.com/CaliforniaMountainSnake/simple-laravel-auth-system/compare/3.0.7...3.0.8

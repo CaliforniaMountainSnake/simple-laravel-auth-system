@@ -39,7 +39,7 @@ trait AbstractAuthSystemTest
      */
     public function testMethodNotAllowed(): void
     {
-        $route = $this->getTestControllerApiRouteByEndpoint($this->TEST_ACTION_FOR_ALL_USERS());
+        $route = $this->getTestControllerApiRouteByEndpoint(self::TEST_ACTION_FOR_ALL_USERS());
         $this->post($route)
             ->assertStatus(JsonResponse::HTTP_METHOD_NOT_ALLOWED);
     }
@@ -49,7 +49,7 @@ trait AbstractAuthSystemTest
      */
     public function testBadTokenFormat(): void
     {
-        $route = $this->getTestControllerApiRouteByEndpoint($this->TEST_ACTION_ONLY_FOR_AUTHORIZED_USERS());
+        $route = $this->getTestControllerApiRouteByEndpoint(self::TEST_ACTION_ONLY_FOR_AUTHORIZED_USERS());
 
         // No token.
         $this->get($route)
@@ -69,7 +69,7 @@ trait AbstractAuthSystemTest
      */
     public function testNotValidToken(): void
     {
-        $route = $this->getTestControllerApiRouteByEndpoint($this->TEST_ACTION_ONLY_FOR_AUTHORIZED_USERS());
+        $route = $this->getTestControllerApiRouteByEndpoint(self::TEST_ACTION_ONLY_FOR_AUTHORIZED_USERS());
         $invalidToken = \str_pad('', $this->getTokenLength(), 'd');
 
         // The token has a correct format, but doesn't exist.
@@ -82,7 +82,7 @@ trait AbstractAuthSystemTest
      */
     public function testAuthenticated(): void
     {
-        $route = $this->getTestControllerApiRouteByEndpoint($this->TEST_ACTION_ONLY_FOR_AUTHORIZED_USERS());
+        $route = $this->getTestControllerApiRouteByEndpoint(self::TEST_ACTION_ONLY_FOR_AUTHORIZED_USERS());
 
         // Test authentication of an usual user.
         $this->get($route . $this->authGetParams($this->getTokenRoleAuthenticatedUser()))
@@ -94,7 +94,7 @@ trait AbstractAuthSystemTest
      */
     public function testAuthorized(): void
     {
-        $route = $this->getTestControllerApiRouteByEndpoint($this->TEST_ACTION_ONLY_FOR_AUTHORIZED_USERS());
+        $route = $this->getTestControllerApiRouteByEndpoint(self::TEST_ACTION_ONLY_FOR_ADMIN_USERS());
 
         // Test authentication AND AUTHORISATION of an admin user (The user is allowed the the requested route).
         $this->get($route . $this->authGetParams($this->getTokenRoleAdminUser()))
@@ -106,7 +106,7 @@ trait AbstractAuthSystemTest
      */
     public function testUnauthorized(): void
     {
-        $route = $this->getTestControllerApiRouteByEndpoint($this->TEST_ACTION_ONLY_FOR_ADMIN_USERS());
+        $route = $this->getTestControllerApiRouteByEndpoint(self::TEST_ACTION_ONLY_FOR_ADMIN_USERS());
 
         // The user is authenticated, but is unauthorized - he doesn't have enough rights.
         $this->get($route . $this->authGetParams($this->getTokenRoleAuthenticatedUser()))
@@ -118,7 +118,7 @@ trait AbstractAuthSystemTest
      */
     public function testPaidActionFreeUser(): void
     {
-        $route = $this->getTestControllerApiRouteByEndpoint($this->TEST_ACTION_ONLY_FOR_NOT_FREE_USERS());
+        $route = $this->getTestControllerApiRouteByEndpoint(self::TEST_ACTION_ONLY_FOR_NOT_FREE_USERS());
         $this->get($route . $this->authGetParams($this->getTokenAccountTypeFreeUser()))
             ->assertStatus(JsonResponse::HTTP_PAYMENT_REQUIRED);
     }
@@ -128,7 +128,7 @@ trait AbstractAuthSystemTest
      */
     public function testPaidActionPaidUser(): void
     {
-        $route = $this->getTestControllerApiRouteByEndpoint($this->TEST_ACTION_ONLY_FOR_NOT_FREE_USERS());
+        $route = $this->getTestControllerApiRouteByEndpoint(self::TEST_ACTION_ONLY_FOR_NOT_FREE_USERS());
         $this->get($route . $this->authGetParams($this->getTokenAccountTypeNotFreeUser()))
             ->assertStatus(JsonResponse::HTTP_OK);
     }
