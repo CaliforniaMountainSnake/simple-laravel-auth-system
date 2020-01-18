@@ -9,6 +9,8 @@ use CaliforniaMountainSnake\SimpleLaravelAuthSystem\AuthUserEntity;
  */
 trait HasUserTrait
 {
+    use MustHasUser;
+
     /**
      * @var AuthUserEntity|null
      */

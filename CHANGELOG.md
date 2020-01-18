@@ -11,6 +11,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Security
 
 
+## [3.0.7] - 2020-01-18
+### Added
+- Added the MustHasUser and MustHasAuthenticator traits.
+### Changed
+- AbstractAuthSystemTest has been simplified.
+
 ## [3.0.6] - 2020-01-15
 ### Fixed
 - Fixed a bug with the AuthenticationException::fromMessages().
@@ -111,6 +117,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Big unification of some classes and methods.
 - Updated the Composer dependencies.
 
+[3.0.7]: https://github.com/CaliforniaMountainSnake/simple-laravel-auth-system/compare/3.0.6...3.0.7
 [3.0.6]: https://github.com/CaliforniaMountainSnake/simple-laravel-auth-system/compare/3.0.5...3.0.6
 [3.0.5]: https://github.com/CaliforniaMountainSnake/simple-laravel-auth-system/compare/3.0.4...3.0.5
 [3.0.4]: https://github.com/CaliforniaMountainSnake/simple-laravel-auth-system/compare/3.0.3...3.0.4

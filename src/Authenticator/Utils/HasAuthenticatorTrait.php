@@ -9,6 +9,8 @@ use CaliforniaMountainSnake\SimpleLaravelAuthSystem\Authenticator\Interfaces\Aut
  */
 trait HasAuthenticatorTrait
 {
+    use MustHasAuthenticator;
+
     /**
      * @var AuthenticatorInterface
      */

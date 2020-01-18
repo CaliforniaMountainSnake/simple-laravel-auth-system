@@ -14,43 +14,32 @@ trait AbstractAuthSystemTest
 {
     use MakesHttpRequests;
     use AuthParamsAuthenticatorUtils;
+    use TestControllerApiEndpoints;
+    use RequireAdminRoles;
 
-    abstract protected function getRouteRoleNotAuthGetMethodOnly(): string;
+    /**
+     * @param string $_test_api_endpoint
+     *
+     * @return mixed
+     */
+    abstract protected function getTestControllerApiRouteByEndpoint(string $_test_api_endpoint);
 
-    abstract protected function getRouteRoleUserGetMethod(): string;
+    abstract protected function getTokenLength(): int;
 
-    abstract protected function getRouteRoleAdminGetMethod(): string;
+    abstract protected function getTokenRoleAuthenticatedUser(): string;
 
-    abstract protected function getRouteAccountTypeFreeGetMethod(): string;
+    abstract protected function getTokenAccountTypeFreeUser(): string;
 
-    abstract protected function getRouteAccountTypeNotFreeGetMethod(): string;
-
-    abstract protected function getTokenMaxLength(): int;
-
-    abstract protected function getTokenRoleUser(): string;
-
-    abstract protected function getTokenRoleAdmin(): string;
-
-    abstract protected function getTokenAccountTypeFree(): string;
-
-    abstract protected function getTokenAccountTypeNotFree(): string;
+    abstract protected function getTokenAccountTypeNotFreeUser(): string;
 
     /**
      * @throws InvalidArgumentException
      */
     public function testMethodNotAllowed(): void
     {
-        $this->post($this->getRouteRoleNotAuthGetMethodOnly())
+        $route = $this->getTestControllerApiRouteByEndpoint($this->TEST_ACTION_FOR_ALL_USERS());
+        $this->post($route)
             ->assertStatus(JsonResponse::HTTP_METHOD_NOT_ALLOWED);
-    }
-
-    /**
-     * @throws InvalidArgumentException
-     */
-    public function testNoToken(): void
-    {
-        $this->get($this->getRouteRoleUserGetMethod())
-            ->assertStatus(JsonResponse::HTTP_BAD_REQUEST);
     }
 
     /**
@@ -58,12 +47,18 @@ trait AbstractAuthSystemTest
      */
     public function testBadTokenFormat(): void
     {
-        // Test empty token.
-        $this->get($this->getRouteRoleNotAuthGetMethodOnly() . $this->authGetParams(''))
+        $route = $this->getTestControllerApiRouteByEndpoint($this->TEST_ACTION_ONLY_FOR_AUTHORIZED_USERS());
+
+        // No token.
+        $this->get($route)
             ->assertStatus(JsonResponse::HTTP_BAD_REQUEST);
 
-        // Test too short token.
-        $this->get($this->getRouteRoleNotAuthGetMethodOnly() . $this->authGetParams('a'))
+        // Empty token.
+        $this->get($route . $this->authGetParams(''))
+            ->assertStatus(JsonResponse::HTTP_BAD_REQUEST);
+
+        // Too short token.
+        $this->get($route . $this->authGetParams('a'))
             ->assertStatus(JsonResponse::HTTP_BAD_REQUEST);
     }
 
@@ -72,20 +67,36 @@ trait AbstractAuthSystemTest
      */
     public function testNotValidToken(): void
     {
-        // Create a token that have good length, but is not valid.
-        $token = \str_pad('', $this->getTokenMaxLength(), 'd');
+        $route = $this->getTestControllerApiRouteByEndpoint($this->TEST_ACTION_ONLY_FOR_AUTHORIZED_USERS());
+        $invalidToken = \str_pad('', $this->getTokenLength(), 'd');
 
-        $paramsString = $this->authGetParams($token);
-        $this->get($this->getRouteRoleNotAuthGetMethodOnly() . $paramsString)
+        // The token has a correct format, but doesn't exist.
+        $this->get($route . $this->authGetParams($invalidToken))
             ->assertStatus(JsonResponse::HTTP_UNAUTHORIZED);
     }
 
     /**
      * @throws InvalidArgumentException
      */
-    public function testGoodToken(): void
+    public function testAuthenticated(): void
     {
-        $this->get($this->getRouteRoleUserGetMethod() . $this->authGetParams($this->getTokenRoleUser()))
+        $route = $this->getTestControllerApiRouteByEndpoint($this->TEST_ACTION_ONLY_FOR_AUTHORIZED_USERS());
+
+        // Test authentication of an usual user.
+        $this->get($route . $this->authGetParams($this->getTokenRoleAuthenticatedUser()))
+            ->assertStatus(JsonResponse::HTTP_OK);
+    }
+
+
+    /**
+     * @throws InvalidArgumentException
+     */
+    public function testAuthorized(): void
+    {
+        $route = $this->getTestControllerApiRouteByEndpoint($this->TEST_ACTION_ONLY_FOR_AUTHORIZED_USERS());
+
+        // Test authentication AND AUTHORISATION of an admin user (The user is allowed the the requested route).
+        $this->get($route . $this->authGetParams((string)$this->getAdminRoles()[0]))
             ->assertStatus(JsonResponse::HTTP_OK);
     }
 
@@ -94,19 +105,11 @@ trait AbstractAuthSystemTest
      */
     public function testUnauthorized(): void
     {
-        // The user is authenticated, but is unauthorized - he has not enough rights.
-        $this->get($this->getRouteRoleAdminGetMethod() . $this->authGetParams($this->getTokenRoleUser()))
-            ->assertStatus(JsonResponse::HTTP_FORBIDDEN);
-    }
+        $route = $this->getTestControllerApiRouteByEndpoint($this->TEST_ACTION_ONLY_FOR_ADMIN_USERS());
 
-    /**
-     * @throws InvalidArgumentException
-     */
-    public function testPaidActionPaidUser(): void
-    {
-        $this->get($this->getRouteAccountTypeNotFreeGetMethod()
-            . $this->authGetParams($this->getTokenAccountTypeNotFree()))
-            ->assertStatus(JsonResponse::HTTP_OK);
+        // The user is authenticated, but is unauthorized - he doesn't have enough rights.
+        $this->get($route . $this->authGetParams($this->getTokenRoleAuthenticatedUser()))
+            ->assertStatus(JsonResponse::HTTP_FORBIDDEN);
     }
 
     /**
@@ -114,28 +117,18 @@ trait AbstractAuthSystemTest
      */
     public function testPaidActionFreeUser(): void
     {
-        $this->get($this->getRouteAccountTypeNotFreeGetMethod()
-            . $this->authGetParams($this->getTokenAccountTypeFree()))
+        $route = $this->getTestControllerApiRouteByEndpoint($this->TEST_ACTION_ONLY_FOR_NOT_FREE_USERS());
+        $this->get($route . $this->authGetParams($this->getTokenAccountTypeFreeUser()))
             ->assertStatus(JsonResponse::HTTP_PAYMENT_REQUIRED);
     }
 
     /**
      * @throws InvalidArgumentException
      */
-    public function testFreeActionPaidUser(): void
+    public function testPaidActionPaidUser(): void
     {
-        $this->get($this->getRouteAccountTypeFreeGetMethod()
-            . $this->authGetParams($this->getTokenAccountTypeNotFree()))
-            ->assertStatus(JsonResponse::HTTP_OK);
-    }
-
-    /**
-     * @throws InvalidArgumentException
-     */
-    public function testFreeActionFreeUser(): void
-    {
-        $this->get($this->getRouteAccountTypeFreeGetMethod()
-            . $this->authGetParams($this->getTokenAccountTypeFree()))
+        $route = $this->getTestControllerApiRouteByEndpoint($this->TEST_ACTION_ONLY_FOR_NOT_FREE_USERS());
+        $this->get($route . $this->authGetParams($this->getTokenAccountTypeNotFreeUser()))
             ->assertStatus(JsonResponse::HTTP_OK);
     }
 }
