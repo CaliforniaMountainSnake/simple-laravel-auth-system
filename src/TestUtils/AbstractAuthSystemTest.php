@@ -28,6 +28,8 @@ trait AbstractAuthSystemTest
 
     abstract protected function getTokenRoleAuthenticatedUser(): string;
 
+    abstract protected function getTokenRoleAdminUser(): string;
+
     abstract protected function getTokenAccountTypeFreeUser(): string;
 
     abstract protected function getTokenAccountTypeNotFreeUser(): string;
@@ -87,7 +89,6 @@ trait AbstractAuthSystemTest
             ->assertStatus(JsonResponse::HTTP_OK);
     }
 
-
     /**
      * @throws InvalidArgumentException
      */
@@ -96,7 +97,7 @@ trait AbstractAuthSystemTest
         $route = $this->getTestControllerApiRouteByEndpoint($this->TEST_ACTION_ONLY_FOR_AUTHORIZED_USERS());
 
         // Test authentication AND AUTHORISATION of an admin user (The user is allowed the the requested route).
-        $this->get($route . $this->authGetParams((string)$this->getAdminRoles()[0]))
+        $this->get($route . $this->authGetParams($this->getTokenRoleAdminUser()))
             ->assertStatus(JsonResponse::HTTP_OK);
     }
 
