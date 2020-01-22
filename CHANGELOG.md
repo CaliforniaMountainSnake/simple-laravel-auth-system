@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Security
 
 
+## [3.0.12] - 2020-01-22
+### Removed
+- Removed the test of empty token from the AbstractAuthSystemTest::testBadTokenFormat(). Because this test is depends on Laravel's ConvertEmptyStringsToNull middleware class, but is not mandatory.
+
 ## [3.0.11] - 2020-01-18
 ### Fixed
 - Fixed TestControllerApiEndpoints.
@@ -133,6 +137,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Big unification of some classes and methods.
 - Updated the Composer dependencies.
 
+[3.0.12]: https://github.com/CaliforniaMountainSnake/simple-laravel-auth-system/compare/3.0.11...3.0.12
 [3.0.11]: https://github.com/CaliforniaMountainSnake/simple-laravel-auth-system/compare/3.0.10...3.0.11
 [3.0.10]: https://github.com/CaliforniaMountainSnake/simple-laravel-auth-system/compare/3.0.9...3.0.10
 [3.0.9]: https://github.com/CaliforniaMountainSnake/simple-laravel-auth-system/compare/3.0.8...3.0.9
