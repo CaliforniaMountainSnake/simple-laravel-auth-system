@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Security
 
 
+## [3.0.14] - 2020-01-26
+### Fixed
+- README.md has been improved.
+
 ## [3.0.13] - 2020-01-22
 ### Added
 - Added the FullRequest class that contains also route parameters.
@@ -141,6 +145,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Big unification of some classes and methods.
 - Updated the Composer dependencies.
 
+[3.0.14]: https://github.com/CaliforniaMountainSnake/simple-laravel-auth-system/compare/3.0.13...3.0.14
 [3.0.13]: https://github.com/CaliforniaMountainSnake/simple-laravel-auth-system/compare/3.0.12...3.0.13
 [3.0.12]: https://github.com/CaliforniaMountainSnake/simple-laravel-auth-system/compare/3.0.11...3.0.12
 [3.0.11]: https://github.com/CaliforniaMountainSnake/simple-laravel-auth-system/compare/3.0.10...3.0.11
