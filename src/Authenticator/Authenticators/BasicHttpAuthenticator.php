@@ -7,6 +7,7 @@ use CaliforniaMountainSnake\SimpleLaravelAuthSystem\AccessUtils\AuthUserAccountT
 use CaliforniaMountainSnake\SimpleLaravelAuthSystem\AccessUtils\AuthUserRoleAccessUtils;
 use CaliforniaMountainSnake\SimpleLaravelAuthSystem\Authenticator\Exceptions\AuthenticationException;
 use CaliforniaMountainSnake\SimpleLaravelAuthSystem\Authenticator\Interfaces\AuthenticatorInterface;
+use CaliforniaMountainSnake\SimpleLaravelAuthSystem\Authenticator\Interfaces\AuthHashFunction;
 use CaliforniaMountainSnake\SimpleLaravelAuthSystem\Authenticator\Utils\HasUserTrait;
 use CaliforniaMountainSnake\SimpleLaravelAuthSystem\AuthUserEntity;
 use CaliforniaMountainSnake\SimpleLaravelAuthSystem\AuthUserRepository;
@@ -57,7 +58,15 @@ class BasicHttpAuthenticator implements AuthenticatorInterface
     protected $apiTokenRequestParam;
 
     /**
-     * HttpAuthenticator constructor.
+     * The token will be hashed using this function.
+     * If null, the token will not be changed.
+     *
+     * @var AuthHashFunction|null
+     */
+    protected $apiTokenHashFunction;
+
+    /**
+     * BasicHttpAuthenticator constructor.
      *
      * @param Request                       $request
      * @param AuthUserRepository            $userRepository
@@ -65,6 +74,7 @@ class BasicHttpAuthenticator implements AuthenticatorInterface
      * @param string[]                      $roles
      * @param string[]                      $accountTypes
      * @param string                        $apiTokenRequestParam
+     * @param AuthHashFunction|null         $apiTokenHashFunction
      */
     public function __construct(
         Request $request,
@@ -72,7 +82,8 @@ class BasicHttpAuthenticator implements AuthenticatorInterface
         AuthValidatorServiceInterface $validatorService,
         array $roles,
         array $accountTypes,
-        string $apiTokenRequestParam
+        string $apiTokenRequestParam,
+        ?AuthHashFunction $apiTokenHashFunction
     ) {
         $this->request = $request;
         $this->userRepository = $userRepository;
@@ -80,6 +91,7 @@ class BasicHttpAuthenticator implements AuthenticatorInterface
         $this->roles = $roles;
         $this->accountTypes = $accountTypes;
         $this->apiTokenRequestParam = $apiTokenRequestParam;
+        $this->apiTokenHashFunction = $apiTokenHashFunction;
     }
 
     /**
@@ -114,6 +126,9 @@ class BasicHttpAuthenticator implements AuthenticatorInterface
             );
         }
 
+        // Hash the api_token before search in the database.
+        $token = $this->hashFunction()($token);
+
         // Если токен не найден в БД.
         $this->userEntity = $this->userRepository->getByApiToken($token);
         if ($this->userEntity === null) {
@@ -134,5 +149,20 @@ class BasicHttpAuthenticator implements AuthenticatorInterface
         }
 
         return $this->userEntity;
+    }
+
+    /**
+     * @return callable
+     */
+    protected function hashFunction(): callable
+    {
+        if ($this->apiTokenHashFunction !== null) {
+            return $this->apiTokenHashFunction->getHashFunction();
+        }
+
+        // Return default no_hash function, that just returns the given token.
+        return static function (string $_token) {
+            return $_token;
+        };
     }
 }

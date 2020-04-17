@@ -60,6 +60,20 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(AuthenticatorInterface::class, BasicHttpAuthenticator::class);
         $this->app->singleton(AuthValidatorServiceInterface::class, YourValidatorService::class);
         $this->app->singleton(AuthUserRepository::class, YourUserRepository::class);
+
+        $this->app->singleton(AuthHashFunction::class, static function () {
+            return new class implements AuthHashFunction
+            {
+                public function getHashFunction(): callable
+                {
+                    return static function ($_token) {
+                        // You can use something like this:
+                        // return sha1($_token);
+                        return $_token;
+                    };
+                }
+            };
+        });
     }
 }
 ```

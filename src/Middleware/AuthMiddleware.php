@@ -6,6 +6,7 @@ use CaliforniaMountainSnake\JsonResponse\JsonResponse;
 use CaliforniaMountainSnake\SimpleLaravelAuthSystem\Authenticator\Authenticators\BasicHttpAuthenticator;
 use CaliforniaMountainSnake\SimpleLaravelAuthSystem\Authenticator\Exceptions\AuthenticationException;
 use CaliforniaMountainSnake\SimpleLaravelAuthSystem\Authenticator\Interfaces\AuthenticatorInterface;
+use CaliforniaMountainSnake\SimpleLaravelAuthSystem\Authenticator\Interfaces\AuthHashFunction;
 use CaliforniaMountainSnake\SimpleLaravelAuthSystem\Authenticator\Utils\HasAuthenticatorTrait;
 use CaliforniaMountainSnake\SimpleLaravelAuthSystem\AuthRoleService;
 use CaliforniaMountainSnake\SimpleLaravelAuthSystem\AuthUserRepository;
@@ -35,15 +36,28 @@ class AuthMiddleware
     protected $validatorService;
 
     /**
+     * The token will be hashed using this function.
+     * If null, the token will not be changed.
+     *
+     * @var AuthHashFunction|null
+     */
+    protected $apiTokenHashFunction;
+
+    /**
      * AuthMiddleware constructor.
      *
-     * @param AuthUserRepository            $_user_repository
-     * @param AuthValidatorServiceInterface $_validator_service
+     * @param AuthUserRepository            $userRepository
+     * @param AuthValidatorServiceInterface $validatorService
+     * @param AuthHashFunction|null         $apiTokenHashFunction
      */
-    public function __construct(AuthUserRepository $_user_repository, AuthValidatorServiceInterface $_validator_service)
-    {
-        $this->userRepository = $_user_repository;
-        $this->validatorService = $_validator_service;
+    public function __construct(
+        AuthUserRepository $userRepository,
+        AuthValidatorServiceInterface $validatorService,
+        ?AuthHashFunction $apiTokenHashFunction
+    ) {
+        $this->userRepository = $userRepository;
+        $this->validatorService = $validatorService;
+        $this->apiTokenHashFunction = $apiTokenHashFunction;
     }
 
     /**
@@ -70,7 +84,8 @@ class AuthMiddleware
             $this->validatorService,
             $roles,
             $accountTypes,
-            self::API_TOKEN_REQUEST_PARAM
+            self::API_TOKEN_REQUEST_PARAM,
+            $this->apiTokenHashFunction
         );
         app()->instance(AuthenticatorInterface::class, $this->authenticator);
 

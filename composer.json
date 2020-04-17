@@ -13,7 +13,7 @@
         "php": "^7.2",
         "ext-json": "*",
         "myclabs/php-enum": "~1.5",
-        "laravel/framework": "~5.7",
+        "laravel/framework": "~5.7|~6.0|~7.0",
         "californiamountainsnake/json-response": "~1.0.1",
         "californiamountainsnake/php-database-entities": "~1.0.0",
         "californiamountainsnake/php-utils": "~1.0.7"
