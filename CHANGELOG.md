@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Security
 
 
+## [3.0.16] - 2020-04-19
+### Added
+- Added AuthUserAvailableActions::toJson() method.
+
 ## [3.0.15] - 2020-04-17
 ### Added
 - Added the possibility to set a hash function for api_token request param.
@@ -151,6 +155,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Big unification of some classes and methods.
 - Updated the Composer dependencies.
 
+[3.0.16]: https://github.com/CaliforniaMountainSnake/simple-laravel-auth-system/compare/3.0.15...3.0.16
 [3.0.15]: https://github.com/CaliforniaMountainSnake/simple-laravel-auth-system/compare/3.0.14...3.0.15
 [3.0.14]: https://github.com/CaliforniaMountainSnake/simple-laravel-auth-system/compare/3.0.13...3.0.14
 [3.0.13]: https://github.com/CaliforniaMountainSnake/simple-laravel-auth-system/compare/3.0.12...3.0.13
