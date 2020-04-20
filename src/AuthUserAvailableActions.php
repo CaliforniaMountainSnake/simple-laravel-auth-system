@@ -36,17 +36,27 @@ abstract class AuthUserAvailableActions
     }
 
     /**
-     * Returns calculated values of public methods.
+     * Returns calculated values of serializable methods.
      *
-     * @return string
+     * @return array
      */
-    public function toJson(): string
+    public function toArray(): array
     {
         $calculatedValues = [];
         foreach ($this->serializableMethods as $method) {
             $calculatedValues[$method] = $this->{$method}();
         }
-        return json_encode($calculatedValues);
+        return $calculatedValues;
+    }
+
+    /**
+     * Returns calculated values of serializable methods.
+     *
+     * @return string
+     */
+    public function toJson(): string
+    {
+        return json_encode($this->toArray());
     }
 
     /**
@@ -66,6 +76,7 @@ abstract class AuthUserAvailableActions
     {
         return [
             'getNotSerializableMethods',
+            'toArray',
             'toJson',
             '__construct',
             '__destruct',
