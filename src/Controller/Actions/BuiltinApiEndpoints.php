@@ -2,7 +2,7 @@
 
 namespace CaliforniaMountainSnake\SimpleLaravelAuthSystem\Controller\Actions;
 
-class ActionsApiEndpoints
+trait BuiltinApiEndpoints
 {
     /**
      * @return string
