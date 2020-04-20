@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Security
 
 
+## [3.0.19] - 2020-04-20
+### Changed
+- AvailableRoutes::getAvailableRoutes() has been renamed to AvailableRoutes::getUserAvailableRoutes().
+
 ## [3.0.18] - 2020-04-20
 ### Changed
 - ActionsApiEndpoints is a BuiltinApiEndpoints trait now.
@@ -164,6 +168,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Big unification of some classes and methods.
 - Updated the Composer dependencies.
 
+[3.0.19]: https://github.com/CaliforniaMountainSnake/simple-laravel-auth-system/compare/3.0.18...3.0.19
 [3.0.18]: https://github.com/CaliforniaMountainSnake/simple-laravel-auth-system/compare/3.0.17...3.0.18
 [3.0.17]: https://github.com/CaliforniaMountainSnake/simple-laravel-auth-system/compare/3.0.16...3.0.17
 [3.0.16]: https://github.com/CaliforniaMountainSnake/simple-laravel-auth-system/compare/3.0.15...3.0.16

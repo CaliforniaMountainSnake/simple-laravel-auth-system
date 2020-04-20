@@ -33,7 +33,7 @@ trait AvailableRoutes
      *
      * @return Response
      */
-    public function getAvailableRoutes(): Response
+    public function getUserAvailableRoutes(): Response
     {
         $roleEnumClass = $this->getUserRoleEnumClass();
         $role = $this->getRoleOfUserString($this->getUserEntity());
